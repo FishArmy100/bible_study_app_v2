@@ -23,11 +23,19 @@ pub enum Node
     },
     Italics
     {
-        text: Vec<Node>,
+        text: String
     },
     Bold 
     {
-        text: Vec<Node>
+        text: String
+    },
+    BoldItalic 
+    {
+        text: String
+    },
+    Code 
+    {
+        text: String,
     },
     BlockQuote
     {
