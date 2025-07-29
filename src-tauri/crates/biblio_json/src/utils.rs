@@ -24,3 +24,12 @@ pub fn load_toml<T, P>(path: P) -> Result<T, String>
     toml::from_str(&src)
         .map_err(|e| e.to_string())
 }
+
+pub fn load_json<T, P>(path: P) -> Result<T, String>
+    where P : AsRef<Path>,
+          T : for<'a> Deserialize<'a>
+{
+    let src = load_file(path)?;
+    toml::from_str(&src)
+        .map_err(|e| e.to_string())
+}
