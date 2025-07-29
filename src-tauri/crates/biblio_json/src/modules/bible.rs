@@ -2,14 +2,13 @@ use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{modules::JsonFormat, ref_id::RefId, utils};
+use crate::{ref_id::RefId, utils};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BibleConfig
 {
     pub name: String,
     pub description: String,
-    pub format: JsonFormat,
 }
 
 #[derive(Debug)]
@@ -27,10 +26,13 @@ impl BibleModule
         let config_path = format!("{}/{}.toml", dir_path, name);
         let config: BibleConfig = utils::load_toml(config_path)?;
 
+        let bible_path = format!("{}/{}.jsonl", dir_path, name);
+        let source = BibleSource::from_file(&bible_path)?;
 
         Ok(Self { 
             name: config.name, 
-            description: config.description 
+            description: config.description,
+            source,
         })
     }
 }
@@ -42,18 +44,31 @@ pub struct BibleSource
     pub verses: HashMap<RefId, Verse>
 }
 
-#[derive(Debug)]
+impl BibleSource
+{
+    pub fn from_file(path: &str) -> Result<BibleSource, String>
+    {
+        let verses: Vec<Verse> = utils::load_json_lines(path)?;
+    }
+}
+
+impl BibleSource
+{
+
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Verse
 {
     pub id: RefId,
     pub words: Vec<Word>
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Word 
 {
-    pub red: bool,
-    pub italics: bool,
+    pub red: Option<bool>,
+    pub italics: Option<bool>,
     pub text: String,
 }
 
