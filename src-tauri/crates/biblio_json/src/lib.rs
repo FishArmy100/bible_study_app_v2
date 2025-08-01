@@ -5,11 +5,12 @@ use std::path::Path;
 
 use serde::{Deserialize, Serialize};
 
-use crate::modules::bible::BibleModule;
+use crate::modules::{bible::BibleModule, Module};
 
 pub const PACKAGE_FILE_NAME: &str = "biblio-json.toml";
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(rename_all = "snake_case")]
 pub struct PackageConfig
 {
     pub name: String,
@@ -19,15 +20,10 @@ pub struct PackageConfig
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(rename_all = "snake_case")]
 pub struct ModulePaths
 {
     pub bibles: Option<String>,
-}
-
-#[derive(Debug)]
-pub enum Module
-{
-    Bible(BibleModule)
 }
 
 #[derive(Debug)]
@@ -97,7 +93,6 @@ impl Package
     fn load_bibles(base_dir: &str, pattern: &str) -> Result<Vec<BibleModule>, String>
     {
         let full_path = format!("{}/{}", base_dir, pattern);
-        println!("full path = {}", full_path);
 
         glob::glob(&full_path).map_err(|e| e.to_string())?.filter_map(|entry| -> Option<Result<BibleModule, String>> {
             let entry = match entry {

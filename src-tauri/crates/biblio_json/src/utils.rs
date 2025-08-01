@@ -1,7 +1,7 @@
 use std::{fs, path::Path};
 
 use itertools::Itertools;
-use rayon::iter::{IntoParallelIterator, IntoParallelRefIterator, ParallelIterator};
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use serde::Deserialize;
 
 pub fn load_file<P>(path: P) -> Result<String, String>
@@ -36,12 +36,22 @@ pub fn load_json<T, P>(path: P) -> Result<T, String>
         .map_err(|e| e.to_string())
 }
 
-pub fn load_json_lines<P, T>(path: P) -> Result<Vec<T>, String>
+pub fn load_json_lines<P, T>(path: P) -> Result<Vec<(T, usize)>, String>
     where P : AsRef<Path>,
           T : for<'a> Deserialize<'a> + Send + Sync + 'static
 {
     let src = load_file(path)?;
-    src.lines().collect_vec().into_par_iter().map(|json| {
-        serde_json::from_str(json).map_err(|e| e.to_string())
+    src.lines().enumerate().filter(|(_, v)| !v.is_empty()).collect_vec().into_par_iter().map(|(line, json)| {
+        match serde_json::from_str::<T>(json)
+        {
+            Ok(ok) => Ok((ok, line)),
+            Err(e) => Err(e.to_string())
+        }
     }).collect()
+}
+
+pub fn write_file<P>(path: P, src: &str) -> Result<(), String>
+    where P : AsRef<Path>
+{
+    fs::write(path, src).map_err(|e| e.to_string())
 }

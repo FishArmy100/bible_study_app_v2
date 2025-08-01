@@ -3,7 +3,7 @@ use std::fmt;
 use std::num::NonZeroU32;
 use std::str::FromStr;
 
-#[derive(Debug, PartialEq, Clone, Hash)]
+#[derive(Debug, PartialEq, Clone, Hash, Eq)]
 pub enum RefId 
 {
     Single(Atom),
@@ -27,9 +27,21 @@ impl RefId
             }
         }
     }
+
+    pub fn get_verse_components(&self) -> Option<(&str, u32, u32)>
+    {
+        if let Self::Single(Atom::Verse { book, chapter, verse }) = self 
+        {
+            Some((book, chapter.get(), verse.get()))
+        }
+        else 
+        {
+            None
+        }
+    }
 }
 
-#[derive(Debug, PartialEq, Clone, Hash)]
+#[derive(Debug, PartialEq, Clone, Hash, Eq)]
 pub enum Atom 
 {
     Book { book: String },
