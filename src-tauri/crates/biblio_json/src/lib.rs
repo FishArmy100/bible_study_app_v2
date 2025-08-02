@@ -5,7 +5,7 @@ use std::path::Path;
 
 use serde::{Deserialize, Serialize};
 
-use crate::modules::{bible::BibleModule, Module};
+use crate::modules::{bible::BibleModule, dict::DictionaryModule, Module};
 
 pub const PACKAGE_FILE_NAME: &str = "biblio-json.toml";
 
@@ -24,6 +24,7 @@ pub struct PackageConfig
 pub struct ModulePaths
 {
     pub bibles: Option<String>,
+    pub dictionaries: Option<String>,
 }
 
 #[derive(Debug)]
@@ -80,6 +81,15 @@ impl Package
             }
         }
 
+        if let Some(dictionary_paths) = &paths.dictionaries
+        {
+            match Self::load_dictionaries(root, &dictionary_paths)
+            {
+                Ok(ok) => modules.extend(ok.into_iter().map(|d| Module::Dictionary(d))),
+                Err(e) => errors.push(e),
+            }
+        }
+
         if errors.len() > 0
         {
             Err(errors)
@@ -119,6 +129,38 @@ impl Package
             }.to_str().unwrap();
 
             Some(BibleModule::load(dir, name))
+        }).collect()
+    }
+    
+    fn load_dictionaries(base_dir: &str, pattern: &str) -> Result<Vec<DictionaryModule>, String> 
+    {
+        let full_path = format!("{}/{}", base_dir, pattern);
+
+        glob::glob(&full_path).map_err(|e| e.to_string())?.filter_map(|entry| -> Option<Result<DictionaryModule, String>> {
+            let entry = match entry {
+                Ok(ok) => ok,
+                Err(e) => return Some(Err(e.to_string())),
+            };
+
+            let path = Path::new(&entry);
+
+            let ext = path.extension().map(|s| s.to_str()).flatten();
+            if ext != Some("toml")
+            {
+                return None;
+            }
+            
+            let dir = match path.parent() {
+                Some(s) => s,
+                None => return Some(Err(format!("Expected path {} to have a parent", path.display())))
+            }.to_str().unwrap();
+
+            let name = match path.file_stem() {
+                Some(s) => s,
+                None => return Some(Err(format!("Expected path {} to have a stem", path.display())))
+            }.to_str().unwrap();
+
+            Some(DictionaryModule::load(dir, name))
         }).collect()
     }
 }

@@ -10,6 +10,9 @@ pub struct BibleConfig
 {
     pub name: String,
     pub description: String,
+    pub language: String,
+    pub pub_year: Option<u32>,
+    pub data_source: Option<String>,
     pub books: HashMap<String, String>,
 }
 
@@ -18,6 +21,8 @@ pub struct BibleModule
 {
     pub name: String,
     pub description: String,
+    pub language: String,
+    pub pub_year: Option<u32>,
     pub source: BibleSource, 
 }
 
@@ -34,6 +39,8 @@ impl BibleModule
         Ok(Self { 
             name: config.name, 
             description: config.description,
+            language: config.language,
+            pub_year: config.pub_year,
             source,
         })
     }
@@ -150,10 +157,9 @@ pub struct Word
 {
     pub red: Option<bool>,
     pub italics: Option<bool>,
-    pub punctuation: Option<String>,
-    pub open_paren: Option<String>,
-    pub close_paren: Option<String>,
-    pub text: String,
+    pub begin_punc: Option<String>,
+    pub end_punc: Option<String>,
+    pub text: String, 
 }
 
 #[derive(Debug)]

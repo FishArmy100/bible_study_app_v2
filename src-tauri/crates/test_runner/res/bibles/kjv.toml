@@ -1,5 +1,6 @@
 name = "kjv"
 description = "The King James Version"
+language = "English"
 
 [books]
 Gen = "Genesis"  

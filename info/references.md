@@ -8,3 +8,8 @@
   - [BBE](https://github.com/scrollmapper/bible_databases/tree/master/sources/en/BBE)
   - [YLT](https://github.com/scrollmapper/bible_databases/tree/master/sources/en/YLT)
 - [Google OAuth](https://developers.google.com/identity/protocols/oauth2): SHOULD NOT NEED TO HIDE SECRET??
+- Various CSV Datasets
+  - [Strong's + KJV](https://github.com/gusheng/MetaV)
+  - [BibleData Dataset (Hitchcock's Bible Names Dictionary)](https://dare.mmcatdb.com/datasets/bible-dataset/)
+  - [Brown's Driver's Brig's](https://github.com/eliranwong/unabridged-BDB-Hebrew-lexicon/tree/master)
+  - [TSK](http://justverses.com/jv/app/downloadTSK.vm)

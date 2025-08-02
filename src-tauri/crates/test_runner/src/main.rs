@@ -1,6 +1,6 @@
 use std::{fs, path::Path};
 
-use biblio_json::Package;
+use biblio_json::{modules::Module, Package};
 use itertools::Itertools;
 
 fn main()
@@ -9,13 +9,11 @@ fn main()
         Ok(ok) => ok,
         Err(e) => return println!("Errors:\n{}\n", e.iter().join("\n"))
     };
+    
+    let Some(Module::Bible(kjv)) = package.modules.get(0) else {
+        return;
+    };
 
-    write_file("./out/out.txt", &format!("{:#?}", package)).unwrap();
-}
-
-pub fn write_file<P>(path: P, src: &str) -> Result<(), String>
-    where P : AsRef<Path>
-{
-    fs::write(path, src).map_err(|e| e.to_string())
+    println!("{} has {} books.", kjv.name, kjv.source.book_infos.len())
 }
 
