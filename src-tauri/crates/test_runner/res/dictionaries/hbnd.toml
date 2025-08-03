@@ -1,0 +1,4 @@
+name = "Hitchcock's Bible Names Dictionary"
+authors = []
+language = "en"
+data_source = "https://github.com/BradyStephenson/bible-data?tab=License-1-ov-file"

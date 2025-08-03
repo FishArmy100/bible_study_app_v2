@@ -3,7 +3,7 @@ pub mod dict;
 
 use bible::BibleModule;
 
-use crate::modules::dict::DictionaryModule;
+use crate::modules::dict::DictModule;
 
 
 
@@ -11,5 +11,5 @@ use crate::modules::dict::DictionaryModule;
 pub enum Module
 {
     Bible(BibleModule),
-    Dictionary(DictionaryModule)
+    Dictionary(DictModule)
 }

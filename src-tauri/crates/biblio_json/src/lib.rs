@@ -5,7 +5,7 @@ use std::path::Path;
 
 use serde::{Deserialize, Serialize};
 
-use crate::modules::{bible::BibleModule, dict::DictionaryModule, Module};
+use crate::modules::{bible::BibleModule, dict::DictModule, Module};
 
 pub const PACKAGE_FILE_NAME: &str = "biblio-json.toml";
 
@@ -132,11 +132,11 @@ impl Package
         }).collect()
     }
     
-    fn load_dictionaries(base_dir: &str, pattern: &str) -> Result<Vec<DictionaryModule>, String> 
+    fn load_dictionaries(base_dir: &str, pattern: &str) -> Result<Vec<DictModule>, String> 
     {
         let full_path = format!("{}/{}", base_dir, pattern);
 
-        glob::glob(&full_path).map_err(|e| e.to_string())?.filter_map(|entry| -> Option<Result<DictionaryModule, String>> {
+        glob::glob(&full_path).map_err(|e| e.to_string())?.filter_map(|entry| -> Option<Result<DictModule, String>> {
             let entry = match entry {
                 Ok(ok) => ok,
                 Err(e) => return Some(Err(e.to_string())),
@@ -160,7 +160,7 @@ impl Package
                 None => return Some(Err(format!("Expected path {} to have a stem", path.display())))
             }.to_str().unwrap();
 
-            Some(DictionaryModule::load(dir, name))
+            Some(DictModule::load(dir, name))
         }).collect()
     }
 }

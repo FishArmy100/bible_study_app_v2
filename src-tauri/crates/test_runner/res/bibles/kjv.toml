@@ -1,6 +1,7 @@
 name = "kjv"
 description = "The King James Version"
-language = "English"
+language = "en"
+data_source = "https://github.com/scrollmapper/bible_databases/tree/master/sources/en/KJV"
 
 [books]
 Gen = "Genesis"  

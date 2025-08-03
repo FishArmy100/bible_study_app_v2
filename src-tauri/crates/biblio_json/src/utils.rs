@@ -36,7 +36,7 @@ pub fn load_json<T, P>(path: P) -> Result<T, String>
         .map_err(|e| e.to_string())
 }
 
-pub fn load_json_lines<P, T>(path: P) -> Result<Vec<(T, usize)>, String>
+pub fn load_json_lines<T, P>(path: P) -> Result<Vec<(T, usize)>, String>
     where P : AsRef<Path>,
           T : for<'a> Deserialize<'a> + Send + Sync + 'static
 {

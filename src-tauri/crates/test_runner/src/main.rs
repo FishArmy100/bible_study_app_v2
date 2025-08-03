@@ -9,11 +9,20 @@ fn main()
         Ok(ok) => ok,
         Err(e) => return println!("Errors:\n{}\n", e.iter().join("\n"))
     };
-    
-    let Some(Module::Bible(kjv)) = package.modules.get(0) else {
-        return;
-    };
 
-    println!("{} has {} books.", kjv.name, kjv.source.book_infos.len())
+    if let Some(Module::Dictionary(dict)) = package.modules.get(0)
+    {
+        let name = "Zuzims";
+        if let Some(entry) = dict.find(name)
+        {
+            println!("{}: {}", entry.word, entry.definitions.iter().join(", "))
+        }
+    }
+    
+    // let Some(Module::Bible(kjv)) = package.modules.get(0) else {
+    //     return;
+    // };
+
+    // println!("{} has {} books.", kjv.name, kjv.source.book_infos.len())
 }
 

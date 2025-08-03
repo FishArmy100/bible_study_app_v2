@@ -3,4 +3,5 @@ authors = [ "Nate Craver" ]
 license = "We dont need no stinking license"
 
 [module_paths]
-bibles = "/bibles/*"
+# bibles = "/bibles/*"
+dictionaries = "/dictionaries/*"
