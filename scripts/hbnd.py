@@ -28,6 +28,6 @@ print("Writing to file: out.jsonl...")
 with open('out.jsonl', 'w') as file:
     for row in data:
         defs = ", ".join(map(lambda d : f"\"{d.strip()}\"", row[1].split(";")))
-        file.write(f"{{ \"word\": \"{row[0]}\", \"definitions\": [{defs}] }}\n")
+        file.write(f"{{ \"term\": \"{row[0]}\", \"definitions\": [{defs}] }}\n")
 
 print("Done!")

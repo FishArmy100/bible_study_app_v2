@@ -1,5 +1,6 @@
 pub mod bible;
 pub mod dict;
+pub mod xrefs;
 
 use bible::BibleModule;
 

@@ -12,10 +12,10 @@ fn main()
 
     if let Some(Module::Dictionary(dict)) = package.modules.get(0)
     {
-        let name = "Zuzims";
+        let name = "zUzims'";
         if let Some(entry) = dict.find(name)
         {
-            println!("{}: {}", entry.word, entry.definitions.iter().join(", "))
+            println!("{}: {}", entry.term, entry.definitions.iter().join(", "))
         }
     }
     
