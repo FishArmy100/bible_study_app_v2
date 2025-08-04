@@ -81,8 +81,8 @@ impl DictModule
 
 fn eq_ignore_punc_and_case(a: &str, b: &str) -> bool
 {
-    let a_chars = a.chars().into_iter().filter(|c| c.is_alphanumeric()).map(|c| c.to_ascii_lowercase());
-    let b_chars = b.chars().into_iter().filter(|c| c.is_alphanumeric()).map(|c| c.to_ascii_lowercase());
+    let a_chars = get_normalized_str_chars(a);
+    let b_chars = get_normalized_str_chars(b);
 
     for pair in a_chars.zip_longest(b_chars)
     {
@@ -97,4 +97,11 @@ fn eq_ignore_punc_and_case(a: &str, b: &str) -> bool
     }
 
     true
+}
+
+fn get_normalized_str_chars(s: &str) -> impl Iterator<Item = char>
+{
+    s.chars().into_iter()
+        .filter(|c| c.is_alphanumeric() || *c == '-' || *c == '\'')
+        .map(|c| c.to_ascii_lowercase())
 }
