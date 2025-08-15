@@ -28,6 +28,8 @@
 - [ ] Collapse long notes/highlights
 - [ ] Strong's number parsing/searching
 - [ ] Support relegated to versions of the Bible where compatible
+- [ ] Bugs
+  - [ ] CRITICAL - 3rd John does not appear, it is just called John
 
 ### Version 0.5.4: Cloud Saving
 - [x] Cloud saving via Google Drive
