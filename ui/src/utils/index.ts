@@ -280,7 +280,7 @@ export async function display_no_save_popup()
     }
 }
 
-export enum AudioClip
+export enum AudioClip 
 {
     Flip = 'flip',
 }
